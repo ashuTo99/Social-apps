@@ -152,7 +152,8 @@ def friendRequestStatus(request):
         request_id = serializer.data['request_id']
         requestObj = FriendQuery.getRequestById(int(request_id))
         if requestObj:
-            if not FriendQuery.isFriends(requestObj):
+            isFriends = FriendQuery.isFriends(requestObj)
+            if not isFriends:
                 if status == "accepted":
                     requestObj.request_status = status
                     requestObj.save()
