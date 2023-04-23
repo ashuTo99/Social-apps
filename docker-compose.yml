@@ -1,0 +1,22 @@
+version: "3"
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: ""
+      POSTGRES_DB: ""
+      POSTGRES_PASSWORD: ""
+    volumes:
+      - pgdata:/var/lib/posgresql/data
+  social_apps:
+    build:
+      context: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./social_apps:/social_apps
+    command: python manage.py runserver 0.0.0.0:8000
+    depends_on:
+      - db
+volumes:
+  pgdata:
