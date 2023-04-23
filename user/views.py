@@ -90,8 +90,8 @@ def sendFriendRequest(request):
         receiverObj = UserQuery.getUserById(int(friend_id))
         activityObj = UserActivity.objects.filter(Q(sender_id=senderObj,receiver_id=receiverObj) | Q(sender_id=receiverObj,receiver_id=senderObj)).first()
         if not activityObj:
-            isCanSend = FriendQuery.isCanSend(senderObj.id)
-            if isCanSend:
+            can_send = FriendQuery.isCanSend(senderObj.id)
+            if can_send:
                 try :
                     activityObj = FriendQuery.saveFriendRequest(senderObj,receiverObj)
                     request_status = activityObj.request_status
@@ -152,8 +152,8 @@ def friendRequestStatus(request):
         request_id = serializer.data['request_id']
         requestObj = FriendQuery.getRequestById(int(request_id))
         if requestObj:
-            isFriends = FriendQuery.isFriends(requestObj)
-            if not isFriends:
+            is_friends = FriendQuery.isFriends(requestObj)
+            if not is_friends:
                 if status == "accepted":
                     requestObj.request_status = status
                     requestObj.save()
